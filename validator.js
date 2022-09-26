@@ -60,7 +60,7 @@ class Validator{
                 this.errors[fieldName] = [];
                 this.errors[elFields[fieldName].matching] = [];
             }
-
+            
         }
 
         this.populateErrors(this.errors);
