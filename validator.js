@@ -17,8 +17,7 @@ class Validator{
         let inputSelector = this.elementsConfig;
 
         for(let field in inputSelector){
-            let selector = `input[name="${field}"]`;
-            let el = document.querySelector(selector);
+            let el = document.querySelector(`input[name="${field}"]`);
 
             el.addEventListener('input', this.validate.bind(this));
         }
@@ -41,16 +40,20 @@ class Validator{
 
         if(elFields[fieldName].email){
             if(!this.validateEmail(fieldValue)){
-                this.errors[fieldName].push('Neispravna email adresa')
+                this.errors[fieldName].push('Neispravna email adresa');
             }
         }
 
-        if(fieldValue.lenght < elFields[fieldName].minlength || fieldValue.length > elFields[fieldName].maxlength){
-            this.errors[fieldName].push(`Polje mora imati minimalno ${elFields[fieldName].minlength} i maksimalno ${elFields[fieldName].maxlength}`);
+        if(fieldValue.length < elFields[fieldName].minlength){ 
+            this.errors[fieldName].push(`Polje mora imati minimalno ${elFields[fieldName].minlength} karaktera`);
+        }
+
+        if(fieldValue.length > elFields[fieldName].maxlength){
+            this.errors[fieldName].push(`Polje mora imati maksimalno ${elFields[fieldName].maxlength} karaktera`);
         }
 
         if(elFields[fieldName].matching){
-            let matchingEl = document.querySelector(`input[name"${elFields[fieldName].matching}"]`);
+            let matchingEl = document.querySelector(`input[name="${elFields[fieldName].matching}"]`);
 
             if(fieldValue !== matchingEl.value){
                 this.errors[fieldName].push('Lozinke se ne poklapaju');
@@ -60,7 +63,7 @@ class Validator{
                 this.errors[fieldName] = [];
                 this.errors[elFields[fieldName].matching] = [];
             }
-            
+
         }
 
         this.populateErrors(this.errors);
